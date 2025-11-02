@@ -1,3 +1,0 @@
-try 2 approaches: OCR, homo
-
-it would be instersting to: consider sythethic data - use stable diffusiuon to generate images of numbers

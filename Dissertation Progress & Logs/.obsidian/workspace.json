@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "(1) 2025-10-24.md",
+                "file": "(2) 2025-10-31.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "(1) 2025-10-24"
+              "title": "(2) 2025-10-31"
             }
           }
         ]
@@ -168,8 +168,9 @@
   },
   "active": "97cb08b49881fc70",
   "lastOpenFiles": [
-    "(0) Pre-Third Year.md",
     "(1) 2025-10-24.md",
+    "(2) 2025-10-31.md",
+    "(0) Pre-Third Year.md",
     "Synthetic Bias Injection.md",
     "US20200211327A1 Findings.md",
     "US20200211327A1.pdf",
