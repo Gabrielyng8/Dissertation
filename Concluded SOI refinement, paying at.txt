@@ -1,0 +1,9 @@
+Concluded SOI refinement, paying attention to the new purpose of the study which focuses on easy monitoring of game-wheel physics and not restricted to professional wheel.
+
+Synthetic Dataset:
+
+Go and research hwow best to have a dataset of small tiles and have a model detect them as part of a larger image (in context)
+
+stable diff. 2 to create a yolo dataset (images + labels)
+
+This is a template matching problem (finding the numbers by themselves) could replace yolo
