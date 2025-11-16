@@ -1,0 +1,36 @@
+# ===== Dissertation Project Dependencies =====
+
+# --- Core scientific stack ---
+numpy==2.2.6
+pandas==2.3.3
+scipy==1.13.1
+scikit-learn==1.7.2
+scikit-image==0.25.2
+matplotlib==3.10.0
+seaborn==0.13.2
+statsmodels==0.14.5
+tqdm==4.67.1
+pyyaml==6.0.2
+
+# --- Computer Vision ---
+opencv-python==4.12.0.0
+
+# --- Deep Learning (Installed separately — see instructions below) ---
+# torch
+# torchvision
+# torchaudio
+
+# --- NLP / Diffusion / Model Hubs ---
+transformers==4.46.3
+diffusers==0.31.0
+accelerate==0.34.2
+safetensors==0.4.5
+huggingface_hub==0.26.2
+Pillow==11.0.0
+
+# --- YOLO ---
+ultralytics==8.3.33
+
+# --- Jupyter ---
+ipykernel==6.29.5
+jupyterlab==4.2.5
