@@ -1,0 +1,67 @@
+# --------------------------
+# Python venvs
+# --------------------------
+.venv/
+venv/
+ENV/
+env/
+
+# --------------------------
+# Python cache
+# --------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --------------------------
+# Jupyter notebook cache
+# --------------------------
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# --------------------------
+# Datasets (large, regenerated, non-versioned)
+# --------------------------
+Code/data/
+Code/data/raw/
+Code/data/processed/
+Code/data/synthetic/
+
+# --------------------------
+# Model weights / checkpoints
+# --------------------------
+Code/models/
+*.pt
+*.pth
+*.safetensors
+
+# --------------------------
+# HuggingFace / Diffusers cache
+# (prevents huge downloads being committed)
+# --------------------------
+huggingface/
+~/.cache/huggingface/
+Code/huggingface/
+**/diffusers-cache/
+**/transformers-cache/
+
+# --------------------------
+# VS Code project settings
+# --------------------------
+.vscode/
+
+# Allow only certain settings (optional uncomment):
+# !.vscode/settings.json
+
+# --------------------------
+# OS / editor generated files
+# --------------------------
+.DS_Store
+Thumbs.db
+
+# --------------------------
+# Logs / outputs
+# --------------------------
+Code/outputs/
+*.log
