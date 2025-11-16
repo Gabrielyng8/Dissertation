@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "dfcbf76c612b795c",
+        "id": "28b9fd8ba111580d",
         "type": "tabs",
         "children": [
           {
-            "id": "97cb08b49881fc70",
+            "id": "194141ca4fb41ec2",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "(2) 2025-10-31.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "(2) 2025-10-31"
+              "title": "New tab"
             }
           }
         ]
@@ -166,10 +162,13 @@
       "bases:Create new base": false
     }
   },
-  "active": "97cb08b49881fc70",
+  "active": "194141ca4fb41ec2",
   "lastOpenFiles": [
-    "(1) 2025-10-24.md",
+    "(3) 2025-11-07.md",
+    "(4) 2025-11-11.md",
     "(2) 2025-10-31.md",
+    "(3) 2025-11-07",
+    "(1) 2025-10-24.md",
     "(0) Pre-Third Year.md",
     "Synthetic Bias Injection.md",
     "US20200211327A1 Findings.md",
