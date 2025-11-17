@@ -1,179 +1,163 @@
 
 # November 16-17 2025
+
 ## 1. **Summary of Activities**
 
-The focus of today’s work was exploring **template matching** as the first experimental approach for detecting roulette pockets. This involved:
+Today’s work focused on exploring **template matching** as the first experimental approach for detecting roulette pockets. Activities included:
 
-- Extracting a cropped “3” pocket from a wheel image
-- Upscaling it using OpenCV super-resolution
-- Sharpening and cleaning the template
-- Running classical `cv2.matchTemplate`
-- Generating **many rotated variants** of the template
-- Testing multi-angle and multi-scale matching
-- Analysing why some attempts fail and what the pipeline needs next
+- Extracting a cropped “3” pocket from a wheel image.
+- Upscaling the tiny template using OpenCV super-resolution.
+- Sharpening and cleaning the template.
+- Running classical `cv2.matchTemplate`.
+- Generating **rotated variants** of the template.
+- Testing multi-angle and multi-scale matching.
+- Capturing **four wheel scenarios** where the “3” pocket appears at:
+    - **12 o’clock**
+    - **3 o’clock**
+    - **6 o’clock**
+    - **9 o’clock**
+- Capturing **four larger templates** of the “3” pocket (including ~70% of neighbouring pockets).
+- Testing each template against each wheel scenario.
 
 ---
 ## 2. **What Approaches Were Tried**
 
 ### **2.1 Simple template matching (raw template)**
 
-- Loaded the wheel frame (target image) and a single cropped “3”.
-- Performed direct `cv2.matchTemplate` with `TM_CCOEFF_NORMED`.
-
-**Result:**
-
-- Worked somewhat; score around ~0.98 for upright template.
-- Confirmed matching requires template scale to be very close to the real size.
+- Used the very small cropped “3”.
+- Direct matching worked partially (scores ~0.98 when scale was identical).
+- Confirmed template matching requires near-identical scale.
 
 ---
 ### **2.2 Upscaled template (super-resolution)**
 
-Used OpenCV’s EDSR ×4 to upscale the small template.
-
-**Result:**
-
-- Contrary to expectation, upscaling made matching _worse_.
-- Score dropped significantly.
-- Reason: template became too large + texture changed from original.
-- Key discovery: **template matching is extremely scale-sensitive**.
+- Used EDSR ×4 to upscale the tiny template.
+- Result: **significantly worse matching**.
+- Reason: scale mismatch + texture distortion.
 
 ---
 ### **2.3 Sharpening (Gaussian + Unsharp Mask)**
 
-Applied sharpening after upscaling.
+- Applied sharpening post-upscaling.
+- Improved visuals but **did not improve matching**.
+- Discovery: clarity < scale consistency.
+
+---
+### **2.4 Rotated templates**
+
+- Initially created rotated templates, but black corner regions interfered.
+- Implemented padded-rotation + crop pipeline.
+- Improved visually, but matching still weak due to template being too small.
+
+---
+### **2.5 Multi-template sweep**
+
+- Automatically tested all rotated templates.
+- Code pipeline worked perfectly.
+- But the small template produced inconsistent correlation.
+
+---
+### **2.6 NEW: Larger template matching (today’s progress)**
+
+- Took **four new screenshots** of the "3" pocket, each containing:
+    - The "3" pocket
+    - Roughly **70% of neighbouring pockets**
+- Matched each of these templates against:
+    - 12 o'clock “3” scenario
+    - 3 o'clock scenario
+    - 6 o'clock scenario
+    - 9 o'clock scenario
 
 **Result:**
 
-- Improved visual clarity but did _not_ significantly improve matchTemplate performance.
-- Again: scale mismatch > clarity mismatch.
+- **Significantly improved matching accuracy.**
+- Templates with neighbouring context consistently produced strong detections.
+- This validates the earlier hypothesis: **larger spatial context is crucial**.
 ---
-### **2.4 Rotated templates (to match wheel rotation)**
-
-Generated templates at angles from −20° to +20°.
-
-**Initial attempt:**
-
-- Rotating produced black corners → matchTemplate failed.
-
-**Later improvement:**
-
-- Implemented padded-rotation + crop strategy.
-- Ensured no black corners.
-- Still not enough to achieve stable matching due to template size being too small relative to wheel resolution.
-
----
-
-### **2.5 Multi-template loop**
-
-Created a loop to test all rotated variants and pick the best match.
-
-**Result:**
-
-- Pipeline works reliably as code.
-- But visually still poor detection with the current template crop, meaning the _template quality_ is the bottleneck.
-
----
-
 ## 3. **Key Discoveries**
 
 ### 🔍 **(1) Template scale is critical**
 
-Matching fails unless the template is nearly the exact same scale as the pocket in the wheel frame.
+Template matching breaks if the scale is off even slightly.
 
-### 🔍 **(2) The cropped “3” template is too small**
+### 🔍 **(2) The first tiny template was too small**
 
-The original crop is only ~20 pixels tall—insufficient detail for correlation.
+~20 px tall → insufficient.
 
-### 🔍 **(3) Upscaling does not solve the resolution issue**
+### 🔍 **(3) Spatial context dramatically improves matching**
 
-Upscaling changes the texture → match quality drops.
+Including neighbouring pockets produced **successful recognitions today**.
 
-### 🔍 **(4) Rotation introduces edge artifacts unless padded/cropped**
+### 🔍 **(4) Upscaling an already blurry template hurts performance**
 
-Fixed via custom rotate-and-crop function, but still limited by poor input quality.
+Super-resolution alters texture.
 
-### 🔍 **(5) Template matching may work better with a larger spatial context**
+### 🔍 **(5) Rotation requires clean templates with no black corners**
 
-Including:
+Padded-rotation + crop solves this, but is dependent on input quality.
 
-- Entire pocket block
-- Neighbouring pockets
-- Separator lines  
-    The shape of the _block_ is equally important as the digit itself.
+### 🔍 **(6) Template matching is viable when template quality & context are good**
 
-### 🔍 **(6) Template matching might be viable only for some pockets**
-
-For example:
-
-- The **green 0** pocket (unique color)
-- Bold digits with strong contrast
+Today’s successful matches confirmed this.
 
 ---
+
 ## 4. **Where We Are → Where We Left Off**
 
-### **Current Status**
+### ✔ Current Status
 
-- The core template-matching pipeline (code) is implemented:
-    - Basic match
-    - Heatmap
-    - Multi-template sweep
-    - Rotated templates
-- But good detection was **not** achieved with the current small template.
+- Template matching **failed** with tiny isolated crops.
+- Template matching **succeeded** today with larger templates including neighbouring pockets.
+- Rotation-matching pipeline is implemented but depends on template quality.
 
-### **Main Bottleneck**
+### ❗ Main Bottleneck
 
-- The template is too small and lacks crisp structure.
-- Need a higher-resolution frame or a more comprehensive template region.
+- High-quality, properly scaled templates are essential.
+
+### ⭐ Today’s major improvement
+
+- Using larger cropped templates resulted in **reliable matches** in all four wheel scenarios.
 
 ---
-
 ## 5. **Next Steps / Future Work**
 
-### **Approach A — Use a larger template**
+### **Approach A — Use even larger templates**
 
-- Re-crop the “3” as a **bigger block**:
-    - Include neighbouring pockets left & right
-    - Include top/bottom separators
-- This gives matchTemplate a stronger structural pattern.
+Include:
+- Neighbouring pockets
+- Separator bars
+- Local rim geometry
 
-### **Approach B — Use multiple templates**
+### **Approach B — Multi-pocket identification**
 
-- Manually create templates for a few pockets that are:
-    - clean
-    - upright
-    - representative
-- After detecting 3–5 pockets, **fit an ellipse** to the pocket centres to reconstruct:
-    - the wheel rim
-    - the circular mapping  
-        Then infer positions of all other pockets mathematically.
+- Create templates for a few pockets.
+- Detect their coordinates.
+- Fit an **ellipse** around pocket centres.
+- Infer all other pocket positions mathematically.
 
-### **Approach C — Build a higher-quality template dataset**
+### **Approach C — Build a high-quality template dataset**
 
-- From:
-    - a higher-resolution wheel frame
-    - a different still image without motion blur
-    - or synthetic image generation
-- Extract upright patches and rotate stabilized regions.
+From:
+- Higher-resolution frame(s)
+- Synthetic image generation
+- Stabilised screenshots
 
-### **Approach D — Move towards video**
+### **Approach D — Move to video processing**
 
-Once matching is stable on still images:
-
-- Feed frames from the roulette spin video
-- Perform continuous matching per frame
-- Track consistency over time
-- Begin exploring pocket centroid tracking
+Once the still-image pipeline is stable:
+- Run matching per frame
+- Track pocket position across time
+- Start thinking about spin-angle mapping
 
 ---
+
 ## 6. **Reflection**
 
-Even though matching did _not_ succeed today, it was still a productive session because:
+Today marks a **turning point** for the template matching experiment:
+- Early failures were due to poor initial template quality.
+- Larger templates with contextual information **work very well**.
+- The experiment now has a clear path forward.
 
-- We discovered the limitations and failure conditions.
-- We now know why it’s failing (template resolution + scale mismatch).
-- We established a clear direction for iteration.
-- The experimentation pipeline is now ready for improved templates.
+This iterative process—failing small, learning, and refining—is exactly what strengthens the dissertation’s methodology.
 
-This is exactly the type of iterative experimentation expected in the dissertation.
 
----
