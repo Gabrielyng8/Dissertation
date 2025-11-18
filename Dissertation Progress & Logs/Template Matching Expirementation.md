@@ -160,4 +160,114 @@ Today marks a **turning point** for the template matching experiment:
 
 This iterative process—failing small, learning, and refining—is exactly what strengthens the dissertation’s methodology.
 
+---
+# November 18 2025
 
+## 1. Summary of Activities
+
+Today’s session focused on improving the overall structure, flexibility, and performance of the template‑matching workflow. The work included refactoring utility scripts, enhancing the rotated‑template generator, adding video support to notebooks, and experimenting with reduced template sets for faster processing.
+
+## 2. Key Technical Work Completed
+
+### 2.1 Refactored File Dialog Utilities
+
+- Improved the design of `file_dialog_utils` to make it more modular.
+- Added support for:
+    - Selecting **multiple images**
+    - Selecting **videos**
+    - Returning cleaner, more consistent data structures
+    
+- These improvements prepare the system for calibration workflows that use multiple frames or mixed media.
+
+### 2.2 Updated Rotated Template Generator
+
+- Added support for **non‑integer angle intervals** (e.g., 0.5°, 0.25°, 1.0°, 1.25°).
+- Updated rotation range to **−181.0° → +181.0° with 0.1° increments**, preserving full angular coverage while cutting template count nearly in half.
+- Identified a high‑quality rotation configuration:
+    - `crop_factor = 0.65`
+    - `keep_size = False`
+    
+- This reliably removes black corners after rotation, though shrinking templates introduces **scale mismatch** that affects matching behaviour.
+
+### 2.3 Major Updates to Multiple Template Matching Notebook
+
+- Removed leftover code from the original simple template‑matching notebook.
+- Implemented a unified pipeline working with **both images and videos**.
+- Added reusable helper function:
+    - `match_best_template_on_frame(frame_bgr, ...)`
+- Added:
+    - Live frame‑by‑frame rendering in Jupyter
+    - Optional annotated video writer
+    - Resolution fallback extraction
+    - FPS‑aware configuration
+
+### 2.4 Video Support Added
+
+- The system can now accept **video as the target source**.
+- Each frame is processed for best pocket match.
+- Bounding boxes are rendered live.
+- Annotated output videos can be saved for analysis.
+
+### 2.5 Reduced Template Set for Video Efficiency
+
+- Full set of ~28,804 rotated templates is computationally impossible for per‑frame video detection.
+- Reduced the working set to **11 templates** for feasibility testing.
+- Performance: 333 frames × 11 templates = 3,663 comparisons → realistic runtime.
+- Generated a complete annotated video output.
+- Key insight: **template matching is too expensive to perform at scale; heavy work must be moved to calibration only.**
+
+### 2.6 Pipeline Strategy Clarified
+
+- **Calibration (once per wheel):**
+    - Use large template sets and heavy matching.
+    - Identify 3–6 reliable pockets.
+    - Fit a circle/ellipse to derive the wheel’s geometry.
+    - Compute all pocket coordinates mathematically.
+
+- **Runtime (per spin):**
+    - Use 1–2 strong templates to track wheel rotation.
+    - Use YOLO later for ball detection.
+    - Determine the landed pocket from angle matching.
+
+## 3. Discoveries & Insights
+
+### High Score ≠ Correct Match (Important Finding)
+
+- Using rotation‑generated templates (−181° → +181°) produced **very high scores (~0.925)** yet often matched **the wrong pocket**.
+- A manually chosen template, despite producing a **lower score (~0.571)**, identified the **correct pocket**.
+
+This shows that:
+
+- Roulette wheel pockets contain **repetitive patterns**.
+- Auto‑rotated templates (especially when cropped to 65%) are too **generic**, capturing only local features.
+- Manually selected templates contain **implicit context** (neighbor pockets + separators).
+- Therefore, **high correlation does not guarantee correctness**.
+
+### Updated Implications
+
+- Rotated template batches are best used for **coarse search**, not final decisions.
+- Larger, contextual templates remain **more discriminative**.
+- Template matching belongs in the **calibration stage**, not constant per‑frame detection.
+
+## 4. Where We Are → Where We Left Off
+
+### Achieved Today
+
+- Fully functional pipeline for image and video matching.
+- Modular utilities and template loading.
+- Annotated video generation.
+- Validation that template matching must be limited to calibration.
+- A clear, mathematically grounded pipeline direction.
+
+### Next Steps
+
+- Create a **calibration notebook** to detect 3–6 pockets on a high‑quality frame.
+- Fit an ellipse and generate all 37 pocket coordinates.
+- Implement wheel‑rotation tracking using minimal templates.
+- Begin early YOLO ball‑tracking integration.
+
+## 5. Reflection
+
+Today transformed the project from experimental exploration into a defined, scalable pipeline. The major conceptual leap was recognising that template matching is useful **only for calibration**, while rotation tracking and ball detection form the runtime backbone. The discovery that high correlation does not imply correctness further refines the methodological approach.
+
+This steady refinement is building a strong foundation for the dissertation's methodology.
