@@ -1,0 +1,228 @@
+12 - 14 December 2025
+
+    - Split old multi-format template matching script into two, one for image and one for video.
+    - For the video script, added another processing method that implements a double-ended queue (e.g. [1,1,1]) to keep track of when to render box, this is to reduce flickering. This was suggested by mentor.
+
+    - For creating rotated templates, I am using 4 cardinal positions of the '0' (N, E, S, W) and genertating between -45 and +45 degrees for each cardinality. To have the video script not take too long, i am using 5 degree intervals -> 90 degrees each cardinal -> 90/5 = 18 templates for each cardinality
+
+    - Working with two main sets of templates:
+        - One set centred on the '0'
+            - Had good results with this one
+
+        - Other set centred on the green landing pocket beneath the '0'
+            - Semi-decent results with this one (did not manage to get good tracking using the double-ended queue method), might need to adapt code to template match non-greyscale images
+
+    > Why is my code matching on greyscale images?
+        1. Computational Speed (The most important for Video)
+            Color Image: A standard digital image has 3 color channels (Blue, Green, Red). To match a template, the computer has to compare the pixel values for all three channels at every single position.
+            Grayscale Image: Has only 1 channel (Intensity).
+            Result: Switching to grayscale reduces the amount of data the CPU has to crunch by 66%. When you are processing video at 30 frames per second, this speed boost is critical to keeping the video smooth.
+
+        2. Focus on "Shape" over "Color"
+        Template matching methods (like TM_CCOEFF_NORMED) are designed to find patterns and structures (edges, corners, textures).
+            If you search for a specific "Green" wheel sector in color, and the lighting in the room changes slightly (making it look "Dark Green" or "Yellowish Green"), a color-based match might fail.
+            In grayscale, "Green" just becomes a specific shade of gray. The shape of the wheel and the contrast of the edges remain the same regardless of slight color shifts. This makes the matcher more robust to lighting changes.
+
+        3. Simplicity
+        OpenCV's matchTemplate function calculates a mathematical correlation. Doing this in 1D (grayscale) is straightforward: "Is this pixel bright or dark?" Doing it in 3D (Color) is more complex: "Is this pixel red, but also a bit green, and dark?"
+            While OpenCV can do template matching on color images, it usually just matches each channel separately and adds the scores up. It rarely adds accuracy proportional to the cost in speed.
+
+        When should you use Color?
+        You should only use color if Color is the ONLY way to distinguish the object.
+            Example: If you are trying to find a Red Ball in a basket of Blue Balls (and they are all the same size and shape). In grayscale, they might look identical (same shade of gray). In that specific case, you would need color information to tell them apart.
+
+    > What would happen if I try to match using all colours (RGB)?
+        If you pass a color image (3 channels) to cv2.matchTemplate, OpenCV does not use a fancy 3D color-matching algorithm. Instead, it performs a simple summation:
+            It splits the image into Red, Green, and Blue channels.
+            It runs the standard template matching on Red vs. Red, Green vs. Green, and Blue vs. Blue.
+            It adds the scores together to produce the final result map.
+
+        The Consequences:
+            Speed Drop: It becomes 3x slower because the CPU has to do three times the work (one pass for each channel).
+            Minimal Accuracy Gain: For your wheel, the shape (the contrast between the tire and the background) is the strongest feature. Adding color usually adds "noise" rather than signal. For example, if the lighting changes and your "green" sector looks slightly "yellow-green," a strict color match might punish it, whereas a grayscale match only cares that it is "bright" compared to the tire.
+            When to use it: Only use color if you have two objects with the exact same shape but different colors (e.g., finding a Red Ball in a pile of Blue Balls).
+
+    > Difference between OpenCV's template matching methods:
+        OpenCV provides 6 methods, but they fall into 3 Mathematical Families. Understanding these families helps you know which one to pick.
+        
+        - Family A: "Difference" (SQDIFF)
+            Logic: "Subtract the template from the image."
+            Best Score: 0.0 (Perfect match means 0 difference).
+            Worst Score: High numbers.
+            Use Case: Good for finding exact copies of an image (like a digital watermark).
+
+        - Family B: "Correlation" (CCORR)
+            Logic: "Multiply the template by the image."
+            Best Score: High numbers.
+            Worst Score: Low numbers.
+            Major Flaw: It is purely additive. If you scan a bright white patch, the score goes huge simply because the pixels are bright, even if the shape doesn't match. It often gives false positives in bright spots.
+
+        - Family C: "Coefficient" (CCOEFF) - The Smartest One
+            Logic: "Match the pattern, not the intensity."
+            Mechanism: It subtracts the average brightness from both images before comparing. This means it looks for relative trends (e.g., "this pixel is brighter than its neighbor") rather than absolute values.
+            Best Score: High numbers (1.0).
+            Worst Score: Low/Negative numbers (-1.0).
+            Use Case: The best choice for real-world video where lighting changes (shadows, sun, clouds).
+
+        Summary:
+        |Method          |Output Range  |Good for...          |Notes                                                           |
+        |----------------|--------------|---------------------|----------------------------------------------------------------|
+        |TM_SQDIFF       |0 to Huge     |Exact Matches        |Darkest spot is the match.                                      |
+        |TM_SQDIFF_NORMED|0.0 to 1.0    |Robust Exact Matches |0.0 is best.                                                    |
+        |TM_CCORR        |0 to Huge     |Nothing              |Rarely used; easily confused by bright lights.                  |
+        |TM_CCORR_NORMED |0.0 to 1.0    |Textures             |Good for matching textures, but still sensitive to light.       |
+        |TM_CCOEFF       |-Huge to +Huge|Mathematical Analysis|Hard to threshold because the numbers are unbounded.            |
+        |TM_CCOEFF_NORMED|-1.0 to 1.0   |Object Tracking      |This is the Industry Standard. 1.0 is perfect, -1.0 is inverted.|
+
+
+    - Started writing a rough literature review, following the structure of the example thesis my mentor provided.
+
+    - Came up with a hypothetical literature review structure:
+
+        2.1 Computer Vision as a Measurement and Monitoring Tool
+            Purpose: Establish computer vision as a quantitative engineering tool rather than a semantic recognition system.
+
+            Content to cover:
+            - Definition of computer vision
+            - Image vs video analysis
+            - Vision as an inverse problem
+            - Sources of uncertainty (noise, lighting, occlusion, motion blur)
+            - Use of vision systems in inspection, monitoring, and calibration tasks
+            - Importance of repeatability and objectivity in automated measurement
+
+        2.2 Object Detection and Visual Tracking Techniques
+            Purpose: Introduce how relevant features are located and followed within video sequences.
+
+            2.2.1 Object Detection vs Visual Tracking
+                Content to cover:
+
+                - Definition of object detection (frame-based localisation)
+                - Definition of visual tracking (temporal continuity)
+                - Tracking-by-detection paradigms
+                - Trade-offs between detection-only and tracking approaches
+                - Suitability of repeated detection for constrained mechanical systems
+
+            2.2.2 Classical Image Processing Techniques
+                Purpose: Review deterministic, non-learning methods suitable for controlled environments.
+
+                Content to cover:
+
+                - Template matching (correlation-based methods)
+                - Sensitivity to rotation, scale, and illumination
+                - Use of multi-template and rotated templates
+                - Colour segmentation using HSV colour space
+                - Thresholding and morphological filtering
+                - Advantages: interpretability, no training data, low complexity
+                - Limitations: robustness under changing conditions
+
+            2.2.3 Learning-Based Detection Methods (YOLO Family)
+                Purpose: Review modern learning-based object detection approaches.
+
+                Content to cover:
+
+                - Single-stage vs two-stage detectors
+                - YOLO architecture principles
+                - Real-time detection capabilities
+                - Small-object detection challenges
+                - Data augmentation strategies
+                - Relevance to high-speed rotational systems
+                - Trade-offs between robustness and training complexity
+
+        2.3 Geometric Calibration and Spatial Normalisation
+            Purpose: Explain how detected features are transformed into a consistent geometric reference frame.
+
+            Content to cover:
+
+            - Camera perspective distortion
+            - Limitations of raw pixel coordinates
+            - Homography and projective transformations
+            - Mapping oblique camera views to top-down representations
+            - Use of reference points and planar assumptions
+            - Role of geometric calibration in measurement consistency
+
+        2.4 Vision-Based Analysis of Rotational Systems
+            Purpose: Bridge general computer vision techniques to rotating and cyclic mechanical systems.
+
+            Content to cover:
+
+            - Visual characteristics of rotational systems
+            - Angular segmentation and cyclic geometry
+            - Marker-based and colour-based reference detection
+            - Temporal sequencing of outcomes
+            - Challenges unique to rotating systems (motion blur, reflections)
+            - Use of roulette-style wheels as representative case studies
+
+        2.5 Statistical Modelling of Randomness and Mechanical Bias
+            Purpose: Introduce statistical methods for evaluating outcome behaviour and system fairness.
+
+            2.5.1 Uniformity and Independence Assumptions
+                Content to cover:
+
+                - Independent and identically distributed (IID) assumptions
+                - Expected uniform outcome distributions
+                - Outcome frequency analysis
+                - Conceptual definition of fairness in mechanical systems
+
+            2.5.2 Statistical Tests for Mechanical Bias and Drift
+                Content to cover:
+
+                - Chi-squared frequency tests
+                - Runs and independence tests
+                - Effect size interpretation
+                - Sample size considerations
+                - Statistical sensitivity to mechanical drift versus true randomness
+
+        2.6 Empirical Evidence of Mechanical Bias in Rotational Systems
+            Purpose: Demonstrate that mechanical systems deviate measurably from ideal randomness.
+
+            Content to cover:
+
+            - Experimental studies on roulette bias
+            - Effects of tilt, imbalance, and wear
+            - Environmental influences
+            - Implications for ongoing monitoring
+
+        2.7 Calibration Standards and Regulatory Context
+            Purpose: Provide industrial and regulatory context for calibration practices.
+
+            Content to cover:
+
+            - Existing calibration and inspection standards
+            - Emphasis on manual inspection methods
+            - Limitations of non-automated approaches
+            - Opportunities for vision-based calibration tools
+
+        2.8 Literature Synthesis and Research Gap
+            Purpose: Integrate reviewed literature and justify the proposed research.
+
+            Content to cover:
+
+            - Summary of vision-based detection methods
+            - Role of geometric calibration
+            - Importance of statistical monitoring
+            - Identified gaps in existing approaches
+            - Motivation for an integrated, low-cost vision-statistics pipeline
+
+
+        CONDENSED VERSION (FOR MENTOR REVIEW)
+        
+            2.1 Computer Vision as a Measurement Tool Vision systems for quantitative monitoring and calibration.
+                
+            2.2 Object Detection and Visual Tracking Techniques
+                2.2.1 Detection vs tracking concepts
+                2.2.2 Classical image processing methods (template matching, colour segmentation)
+                2.2.3 Learning-based object detection (YOLO family)
+
+            2.3 Geometric Calibration and Spatial Normalisation Homography and geometric alignment for consistent measurement.
+                
+            2.4 Vision-Based Analysis of Rotational Systems Application of vision techniques to rotating and cyclic mechanical systems.
+                
+            2.5 Statistical Modelling of Randomness and Bias
+                2.5.1 Uniformity and independence assumptions
+                2.5.2 Statistical tests for mechanical bias and drift
+
+            2.6 Empirical Evidence of Mechanical Bias Prior studies demonstrating measurable deviations in rotational systems.
+                
+            2.7 Calibration Standards and Regulatory Context Existing inspection practices and their limitations.
+                
+            2.8 Literature Synthesis and Research Gap Integration of vision, geometry, and statistics motivating the proposed approach.
