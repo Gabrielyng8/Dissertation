@@ -226,3 +226,10 @@
             2.7 Calibration Standards and Regulatory Context Existing inspection practices and their limitations.
                 
             2.8 Literature Synthesis and Research Gap Integration of vision, geometry, and statistics motivating the proposed approach.
+
+
+15 December 2025
+
+New idea for wheel tracking: get position of 1 pocket, then track it's rotation along 1 spin
+	-  If able to track across entire spin with good frames, combine list of coordinates to create an elispe.
+	-  If not able to track across entire spin, for example I can get it's position across 4 positions (north, east, south, west), then after having these 4 points, mathematically create an ellipse and create 37 points distributed equally for each pocket
