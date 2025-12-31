@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "ac697ec18cabfbaf",
+        "id": "6420bfb1c734275a",
         "type": "tabs",
         "children": [
           {
-            "id": "7b7459b665b86c50",
+            "id": "667d441e4c8fac1b",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -162,8 +162,9 @@
       "bases:Create new base": false
     }
   },
-  "active": "7b7459b665b86c50",
+  "active": "667d441e4c8fac1b",
   "lastOpenFiles": [
+    "Mentor Meetings/(7) 2025-12-15.md",
     "Mentor Meetings/(6) 2025-11-28.md",
     "Mentor Meetings/(5) 2025-11-21.md",
     "Mentor Meetings/(4) 2025-11-11.md",
