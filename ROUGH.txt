@@ -1,11 +1,12 @@
-2.2 Computer Vision
+2.1 Computer Vision as a Measurement and Monitoring Tool
+
 The field of computer vision exists to develop systems that allow computers to extract useful data from visual content, including images and video footage. Computer vision operates as an inverse problem which requires scientists to extract physical world properties from visual data that contains noise and missing information [1]. The operation of vision-based systems depends on sensor noise, lighting changes, occlusions and restricted sensor resolution which create fundamental uncertainty in their performance.
 
 Computer vision serves engineering and inspection operations through its ability to perform measurements and monitoring tasks instead of its capacity for semantic interpretation. Camera-based systems provide automated non-contact physical process observation which produces repeatable objective results for quality assurance and calibration operations that require automated inspection, as manual observation becomes inconsistent and subjective [1]. These systems operate at high speed to handle extensive data collection which enables researchers to perform quantitative data evaluation.
 
 Computer vision functions across a range from basic image processing operations to advanced image analysis and interpretation methods. The field of image processing deals with operations which accept images as input and produce images as output but computer vision specializes in retrieving information and structural relationships and attributes from visual content [3]. The stages in applied systems operate together to establish stable visual data which enables accurate measurement processes.
 
-When utilizing video as a data source, temporal sampling becomes a critical priority. For moving objects, measurement accuracy is heavily dependent on frame rate, exposure settings, and the management of motion blur. Robust vision systems must therefore account for both spatial and temporal effects to generate the precise, time-stamped observations required for subsequent analysis [1], [2].
+When utilizing video as a data source, temporal sampling becomes a critical priority. For moving objects, measurement accuracy is heavily dependent on frame rate, exposure settings, and the management of motion blur. Robust vision systems must therefore account for both spatial and temporal effects to generate the precise, time stamped observations required for subsequent analysis [1], [2].
 
 2.2 Object Detection and Visual Tracking
 
