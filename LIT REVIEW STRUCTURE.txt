@@ -1,0 +1,379 @@
+2.1 Computer Vision as a Measurement and Monitoring Tool
+            Purpose: Establish computer vision as a quantitative engineering tool rather than a semantic recognition system.
+
+            Content to cover:
+            - Definition of computer vision
+            - Image vs video analysis
+            - Vision as an inverse problem
+            - Sources of uncertainty (noise, lighting, occlusion, motion blur)
+            - Use of vision systems in inspection, monitoring, and calibration tasks
+            - Importance of repeatability and objectivity in automated measurement
+
+2.2 Object Detection and Visual Tracking Techniques
+            Purpose: Introduce how relevant features are located and followed within video sequences.
+
+            2.2.1 Object Detection vs Visual Tracking
+                Content to cover:
+
+                - Definition of object detection (frame-based localisation)
+                - Definition of visual tracking (temporal continuity)
+                - Tracking-by-detection paradigms
+                - Trade-offs between detection-only and tracking approaches
+                - Suitability of repeated detection for constrained mechanical systems
+
+            2.2.2 Classical Image Processing Techniques
+                Purpose: Review deterministic, non-learning methods suitable for controlled environments.
+
+                Content to cover:
+
+                - Template matching (correlation-based methods)
+                - Sensitivity to rotation, scale, and illumination
+                - Use of multi-template and rotated templates
+                - Colour segmentation using HSV colour space
+                - Advantages: interpretability, no training data, low complexity
+                - Limitations: robustness under changing conditions
+
+            2.2.3 Learning-Based Detection Methods (YOLO Family)
+                Purpose: Review modern learning-based object detection approaches.
+
+                Content to cover:
+
+                - Single-stage vs two-stage detectors
+                - YOLO architecture principles
+                - Real-time detection capabilities
+                - Small-object detection challenges
+                - Data augmentation strategies
+                - Relevance to high-speed rotational systems
+                - Trade-offs between robustness and training complexity
+
+2.3 Geometric Calibration and Spatial Normalisation
+    Purpose: Explain how detected features are transformed into a consistent geometric reference frame.
+
+    Content to cover:
+
+    - Camera perspective distortion
+    - Limitations of raw pixel coordinates
+    - Homography and projective transformations
+    - Mapping oblique camera views to top-down representations
+    - Use of reference points and planar assumptions
+    - Role of geometric calibration in measurement consistency
+
+2.4 Vision-Based Analysis of Rotational Systems
+    Purpose: Bridge general computer vision techniques to rotating and cyclic mechanical systems.
+
+    Content to cover:
+
+    - Visual characteristics of rotational systems
+    - Angular segmentation and cyclic geometry
+    - Marker-based and colour-based reference detection
+    - Temporal sequencing of outcomes
+    - Challenges unique to rotating systems (motion blur, reflections)
+    - Use of roulette-style wheels as representative case studies
+
+2.5 Statistical Modelling of Randomness and Mechanical Bias
+    Purpose: Introduce statistical methods for evaluating outcome behaviour and system fairness.
+
+    2.5.1 Uniformity and Independence Assumptions
+        Content to cover:
+
+        - Independent and identically distributed (IID) assumptions
+        - Expected uniform outcome distributions
+        - Outcome frequency analysis
+        - Conceptual definition of fairness in mechanical systems
+
+    2.5.2 Statistical Tests for Mechanical Bias and Drift
+        Content to cover:
+
+        - Chi-squared frequency tests
+        - Runs and independence tests
+        - Effect size interpretation
+        - Sample size considerations
+        - Statistical sensitivity to mechanical drift versus true randomness
+
+2.6 Empirical Evidence of Mechanical Bias in Rotational Systems
+    Purpose: Demonstrate that mechanical systems deviate measurably from ideal randomness.
+
+    Content to cover:
+
+    - Experimental studies on roulette bias
+    - Effects of tilt, imbalance, and wear
+    - Environmental influences
+    - Implications for ongoing monitoring
+
+2.7 Calibration Standards and Regulatory Context
+    Purpose: Provide industrial and regulatory context for calibration practices.
+
+    Content to cover:
+
+    - Existing calibration and inspection standards
+    - Emphasis on manual inspection methods
+    - Limitations of non-automated approaches
+    - Opportunities for vision-based calibration tools
+
+2.8 Literature Synthesis and Research Gap
+    Purpose: Integrate reviewed literature and justify the proposed research.
+
+    Content to cover:
+
+    - Summary of vision-based detection methods
+    - Role of geometric calibration
+    - Importance of statistical monitoring
+    - Identified gaps in existing approaches
+    - Motivation for an integrated, low-cost vision-statistics pipeline
+
+
+
+------
+
+
+## **2.1 Computer Vision as a Measurement and Monitoring Tool**
+
+### 🎯 What you need
+
+* Definitions
+* Engineering framing (NOT AI hype)
+* Measurement, inspection, calibration
+
+### 🔍 Search queries
+
+Use **Google Scholar**:
+
+```
+computer vision as measurement system
+vision-based inspection and measurement
+computer vision inverse problem
+camera-based measurement uncertainty
+machine vision industrial inspection calibration
+```
+
+### 📄 What to look for
+
+* Review papers
+* Industrial / metrology contexts
+* Papers using phrases like:
+
+  * *inspection*
+  * *measurement*
+  * *calibration*
+  * *monitoring*
+
+📌 You are **positioning vision as an engineering instrument**, not object recognition.
+
+---
+
+## **2.2 Object Detection and Visual Tracking Techniques**
+
+---
+
+### **2.2.1 Object Detection vs Visual Tracking**
+
+### 🔍 Search queries
+
+```
+object detection vs visual tracking
+tracking by detection paradigm
+visual object tracking survey
+online object tracking vs detection
+```
+
+### 📄 What to look for
+
+* Survey papers (VERY important)
+* Conceptual comparisons
+* “Tracking-by-detection” explanations
+
+📌 You want **definitions + trade-offs**, not implementation tutorials.
+
+---
+
+### **2.2.2 Classical Image Processing Techniques**
+
+### 🔍 Search queries
+
+```
+template matching correlation based methods
+multi-template matching rotation invariant
+HSV color segmentation object detection
+classical computer vision deterministic methods
+image thresholding morphological filtering
+```
+
+### 📄 What to look for
+
+* Pre-deep-learning CV papers
+* OpenCV-era methods
+* Controlled environment applications
+
+📌 These papers justify **why classical methods still matter** in constrained systems.
+
+---
+
+### **2.2.3 Learning-Based Detection Methods (YOLO Family)**
+
+### 🔍 Search queries
+
+```
+YOLO object detection architecture
+single-stage vs two-stage object detectors
+real-time object detection YOLO
+small object detection challenges YOLO
+data augmentation for object detection
+```
+
+### 📄 What to look for
+
+* Original YOLO papers
+* Comparative detector surveys
+* Performance vs complexity discussions
+
+📌 You are **not selling YOLO** — you are *critically contextualising it*.
+
+---
+
+## **2.3 Geometric Calibration and Spatial Normalisation**
+
+### 🔍 Search queries
+
+```
+camera calibration homography planar scene
+projective transformation top-down mapping
+vision-based geometric calibration
+homography for measurement systems
+camera perspective distortion measurement
+```
+
+### 📄 What to look for
+
+* Geometry-heavy papers
+* Homography explanations
+* Measurement consistency discussions
+
+📌 This section **connects vision → measurement validity**.
+
+---
+
+## **2.4 Vision-Based Analysis of Rotational Systems**
+
+### 🔍 Search queries
+
+```
+vision-based analysis of rotating systems
+rotational object tracking computer vision
+angular segmentation wheel detection
+vision system motion blur rotating objects
+roulette wheel computer vision analysis
+```
+
+### 📄 What to look for
+
+* Rotational motion analysis
+* Cyclic systems
+* Industrial rotating machinery inspection
+
+📌 Roulette is your **case study**, not your only justification.
+
+---
+
+## **2.5 Statistical Modelling of Randomness and Mechanical Bias**
+
+---
+
+### **2.5.1 Uniformity and Independence Assumptions**
+
+### 🔍 Search queries
+
+```
+IID assumptions mechanical systems
+uniformity tests physical random processes
+fairness mechanical systems statistics
+outcome frequency analysis randomness
+```
+
+### 📄 What to look for
+
+* Statistics applied to physical processes
+* Fairness definitions
+* Frequency-based modelling
+
+---
+
+### **2.5.2 Statistical Tests for Mechanical Bias and Drift**
+
+### 🔍 Search queries
+
+```
+chi squared test mechanical bias
+runs test independence physical systems
+detecting mechanical drift statistics
+sample size sensitivity bias detection
+```
+
+### 📄 What to look for
+
+* Applied statistics papers
+* Bias detection contexts
+* Sensitivity and power discussions
+
+📌 This anchors your work in **quantitative rigor**.
+
+---
+
+## **2.6 Empirical Evidence of Mechanical Bias in Rotational Systems**
+
+### 🔍 Search queries
+
+```
+roulette wheel bias experimental study
+mechanical bias gambling wheels
+physical randomness deviation roulette
+tilt imbalance wear mechanical outcomes
+```
+
+### 📄 What to look for
+
+* Experimental evidence
+* Controlled studies
+* Real-world deviation from ideal randomness
+
+📌 This section **justifies why your research matters**.
+
+---
+
+## **2.7 Calibration Standards and Regulatory Context**
+
+### 🔍 Search queries
+
+```
+gaming equipment calibration standards
+GLI roulette wheel inspection
+mechanical system calibration standards
+manual inspection limitations engineering
+```
+
+### 📄 What to look for
+
+* GLI documents
+* Industry reports
+* Standards papers
+
+📌 Even **non-academic standards** are acceptable here (properly cited).
+
+---
+
+## **2.8 Literature Synthesis and Research Gap**
+
+🚫 **No new searching here.**
+
+This section is built by:
+
+* Comparing limitations you’ve already cited
+* Highlighting what is *missing*:
+
+  * Integration of vision + geometry + statistics
+  * Low-cost continuous monitoring
+  * Automated bias detection
+
+📌 This is where **your dissertation becomes inevitable**.
+
+---
+
