@@ -237,7 +237,7 @@
 30th December 2025 - 4th January 2026
 
     Re-written sections 2.2 (Object Detection and Visual Tracking) and 2.2.1 (Object Detection versus Visual Tracking) - I had already written 2.2.1 but I had re-written a new version with more references so i merged them together.
-    Written 2.2.3 (Learning-Based Detection Methods (YOLO Family))
+    Written new sections - 2.2.2 Classical Image Processing Techniques & 2.2.3 Learning-Based Detection Methods (YOLO Family)
     Started experimentation regarding detecting the inner most rim of the roulette wheel - to be specific - the inner edge of the landing pocket area
         Got three noteebooks: 
             - a generated one with good results
