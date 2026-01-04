@@ -230,6 +230,16 @@
 
 15 December 2025
 
-New idea for wheel tracking: get position of 1 pocket, then track it's rotation along 1 spin
-	-  If able to track across entire spin with good frames, combine list of coordinates to create an elispe.
-	-  If not able to track across entire spin, for example I can get it's position across 4 positions (north, east, south, west), then after having these 4 points, mathematically create an ellipse and create 37 points distributed equally for each pocket
+    New idea for wheel tracking: get position of 1 pocket, then track it's rotation along 1 spin
+        -  If able to track across entire spin with good frames, combine list of coordinates to create an elispe.
+        -  If not able to track across entire spin, for example I can get it's position across 4 positions (north, east, south, west), then after having these 4 points, mathematically create an ellipse and create 37 points distributed equally for each pocket.
+
+30th December 2025 - 4th January 2026
+
+    Re-written sections 2.2 (Object Detection and Visual Tracking) and 2.2.1 (Object Detection versus Visual Tracking) - I had already written 2.2.1 but I had re-written a new version with more references so i merged them together.
+    Written 2.2.3 (Learning-Based Detection Methods (YOLO Family))
+    Started experimentation regarding detecting the inner most rim of the roulette wheel - to be specific - the inner edge of the landing pocket area
+        Got three noteebooks: 
+            - a generated one with good results
+            - a modified version of the template matching script (not as good of results as the first one - fitted a circle instead of an elipse)
+            - A new approach using edge detection and masking then fitting an elipse (good results)
