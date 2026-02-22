@@ -9,7 +9,7 @@
 
 % The field of computer vision exists to develop systems that allow computers to extract useful data from visual content, including images and video footage. Computer vision operates as an inverse problem which requires scientists to extract physical world properties from visual data that contains noise and missing information \cite{szeliski_computer_nodate, bradski_learning_2011}. The operation of vision-based systems depends on sensor noise, lighting changes, occlusions and restricted sensor resolution, which create fundamental uncertainty in their performance \cite{szeliski_computer_nodate, bradski_learning_2011}.
 
-Computer vision serves engineering and inspection operations through its ability to perform measurements and monitoring tasks instead of its capacity for semantic interpretation. Camera-based systems provide automated non-contact physical process observation which produces repeatable objective results for quality assurance and calibration operations that require automated inspection, as manual observation becomes inconsistent and subjective \cite{szeliski_computer_nodate, gadelmawla_measurement_2020}. These systems operate at high speed to handle extensive data collection, which enables researchers to perform quantitative data evaluation.
+Computer vision serves engineering and inspection operations through its ability to perform measurements and monitoring tasks instead of its capacity for semantic interpretation. Camera-based systems provide automated non-contact physical process observation which produces repeatable objective results for quality assurance and calibration operations that require automated inspection, as manual observation becomes inconsistent and subjective \cite{szeliski_computer_nodate, gadelmawla_measurement_2020, xue_automatic_2023}. These systems operate at high speed to handle extensive data collection, which enables researchers to perform quantitative data evaluation.
 
 Computer vision functions range from basic image processing operations to advanced image analysis and interpretation methods. The field of image processing deals with operations which accept images as input and produce images as output, but computer vision specialises in retrieving information and structural relationships and attributes from visual content \cite{the_math_works_inc_math_1991, szeliski_computer_nodate}. The stages in applied systems operate together to establish stable visual data which enables accurate measurement processes.
 
@@ -50,7 +50,7 @@ Template matching methods make use of a predefined image patch, called a templat
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.80\textwidth]{Figures/fig_briechle2001_template_matching.png}
-	\caption{Template-matching process based on normalised cross-correlation (adapted from Briechle \& Hanebeck, 2001).}
+	\caption{Template-matching process based on normalised cross-correlation (adapted from \cite{briechle_template_2001}).}
 	\label{fig:litrev_briechle_template_matching}
 \end{figure}
 
@@ -76,7 +76,7 @@ Single-stage detectors, such as SSD, have shown that object detection can be ach
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.78\textwidth]{Figures/fig_redmon2016_yolo_model.png}
-	\caption{YOLO unified detection concept using an input grid and direct prediction of bounding boxes, confidence, and class probabilities (adapted from Redmon et al., 2016).}
+	\caption{YOLO unified detection concept using an input grid and direct prediction of bounding boxes, confidence, and class probabilities (adapted from \cite{redmon_you_2016}).}
 	\label{fig:litrev_redmon_yolo_model}
 \end{figure}
 
@@ -87,7 +87,7 @@ Within single-stage detection, the YOLO family is notable for prioritising the b
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.90\textwidth]{Figures/fig_chen2025_system_architecture.png}
-	\caption{YOLOv8-based rotating-system detection pipeline with motion compensation and deployment-oriented design (adapted from Chen et al., 2025).}
+	\caption{YOLOv8-based rotating-system detection pipeline with motion compensation and deployment-oriented design (adapted from \cite{chen_design_2025}).}
 	\label{fig:litrev_chen_rotating_architecture}
 \end{figure}
 
@@ -117,7 +117,7 @@ Perspective projection causes equal real-world displacements to be represented d
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.86\textwidth]{Figures/fig_wang2025_perspective_distortion.png}
-	\caption{Perspective distortion in planar imaging under different lens/camera configurations, motivating homography-based correction (adapted from Wang et al., 2025).}
+	\caption{Perspective distortion in planar imaging under different lens/camera configurations, motivating homography-based correction (adapted from \cite{wang_perspective_2025}).}
 	\label{fig:litrev_wang_perspective_distortion}
 \end{figure}
 
@@ -132,13 +132,13 @@ An important constraint is that the reference correspondences used to determine 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.84\textwidth]{Figures/fig_wei2024_concentric_feature_point.png}
-	\caption{Concentric-circle feature geometry used for robust centre localisation in camera calibration (adapted from Wei et al., 2024).}
+	\caption{Concentric-circle feature geometry used for robust centre localisation in camera calibration (adapted from \cite{wei_iterative_2024}).}
 	\label{fig:litrev_wei_concentric_feature}
 \end{figure}
 
 \subsection{Mapping Oblique Views to Top-Down Representations}
 
-Spatial normalisation is typically performed by converting oblique camera views to a top-down (bird’s eye) representation, allowing for measurement of displacements in a ground-plane coordinate system. The homography transforms detected image features onto a planar world model and facilitates a more direct interpretation of displacements and relative position. Hinderer et al. demonstrated that a camera observing a known planar pattern can be used to estimate position and direction at high precision by utilising the reference planar structure, illustrating the significance of a well-defined planar frame for consistent spatial inference \cite{hinderer_groundgazer_2025}.
+Spatial normalisation is typically performed by converting oblique camera views to a top-down (bird's eye) representation, allowing for measurement of displacements in a ground-plane coordinate system. The homography transforms detected image features onto a planar world model and facilitates a more direct interpretation of displacements and relative position. Hinderer et al. demonstrated that a camera observing a known planar pattern can be used to estimate position and direction at high precision by utilising the reference planar structure, illustrating the significance of a well-defined planar frame for consistent spatial inference \cite{hinderer_groundgazer_2025}.
 
 To summarise, geometric calibration and spatial normalisation remove dependency on viewpoint and camera configuration by (i) correcting perspective distortions, (ii) substituting raw pixel coordinates with a consistent planar coordinate system via homographies, and (iii) providing accurate and robust reference correspondences to estimate the above mappings. This establishes the basis for consistent measurement over time and enables equivalent comparison of results across different recordings and experimental conditions \cite{wang_perspective_2025,peng_high-precision_2025,wei_iterative_2024,jiang_accurate_2025,hinderer_groundgazer_2025}.
 
@@ -151,18 +151,18 @@ An effective method to visually calibrate rotating systems consists of identifyi
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.86\textwidth]{Figures/fig_liang2022_marker_tracking_setup.png}
-	\caption{High-speed marker-based rotational tracking setup for pose estimation of rotating targets (adapted from Liang et al., 2022).}
+	\caption{High-speed marker-based rotational tracking setup for pose estimation of rotating targets (adapted from \cite{liang_real-time_2022}).}
 	\label{fig:litrev_liang_marker_setup}
 \end{figure}
 
 Numerous studies show how the cyclic motion of rotating elements facilitates the temporally sequential ordering of events. As an example, Natili et al. track wind turbine blades by relating each video frame to a reference image to obtain a virtual tachometer signal which represents the rotor's angular speed over time \cite{natili_video-tachometer_2020}. Thanks to the periodic nature of the blade passage, the robust frequency estimation is possible through spectrogram analysis even in the presence of wind-induced variability. In similar ways, Bahaghighat et al. extract the rotor speed from video using optical flow and deep learning, effectively handling low frame rates and compressed footage, highlighting the utility of temporal models in real-world conditions \cite{bahaghighat_estimation_2020}.
 
-Rotational systems also pose unique visual challenges. Motion blur is one of the most significant problems in the case where the rotors rotate faster than the frame rate allows for a clear image capture. This problem is particularly significant in high-speed applications, as demonstrated by Azevedo et al., who use event-based cameras to bypass the conventional blur problem by asynchronously acquiring pixel-level intensity changes \cite{azevedo_event-based_2022}. Another major challenge is specular reflection, commonly found on shiny or metallic surfaces, which can impair feature detection. Techniques, such as controlled lighting or image enhancement during training, can be used to reduce the influence of this phenomenon.
+Rotational systems also pose unique visual challenges. Motion blur is one of the most significant problems in the case where the rotors rotate faster than the frame rate allows for a clear image capture. This problem is particularly significant in high-speed applications, as demonstrated by Azevedo et al., who use event-based cameras to bypass the conventional blur problem by asynchronously acquiring pixel-level intensity changes \cite{azevedo_event-based_2022}. Another major challenge is specular reflection, commonly found on shiny or metallic surfaces, which can impair feature detection \cite{azevedo_event-based_2022, xue_automatic_2023}. Techniques, such as controlled lighting or image enhancement during training, can be used to reduce the influence of this phenomenon.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.86\textwidth]{Figures/fig_azevedo2022_event_setup.png}
-	\caption{Event-based measurement setup for rotational speed monitoring, illustrating blur-resistant asynchronous sensing (adapted from Azevedo et al., 2022).}
+	\caption{Event-based measurement setup for rotational speed monitoring, illustrating blur-resistant asynchronous sensing (adapted from \cite{azevedo_event-based_2022}).}
 	\label{fig:litrev_azevedo_event_setup}
 \end{figure}
 
@@ -197,7 +197,7 @@ One common statistical technique for assessing the uniformity of the outcomes of
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.86\textwidth]{Figures/fig_campbell2022_running_chisquare.png}
-	\caption{Running chi-square behaviour for fair and unfair systems, supporting cumulative bias detection arguments (adapted from Campbell \& Wimsatt, 2022).}
+	\caption{Running chi-square behaviour for fair and unfair systems, supporting cumulative bias detection arguments (adapted from \cite{campbell_dice_2022}).}
 	\label{fig:litrev_campbell_running_chisquare}
 \end{figure}
 
@@ -241,7 +241,7 @@ The Manitoba Gaming and Liquor Authority defines specific requirements for the m
 
 Similarly, the GLI-11 standard for gaming devices details mechanical and construction requirements for roulette wheels and associated gaming equipment. Compliance with the standard is verified primarily through visual inspection and functional testing, as opposed to through the use of automated measuring equipment \cite{gaming_laboratories_international_gli-11_2016}.
 
-Although regulatory frameworks emphasise mechanical precision, compliance is still determined primarily through manual visual inspection and contact-based measurement. Roulette wheel operators assess the levelness, deformation and wear of their roulette wheels through subjective observation combined with mechanical gauges. Although these methods are sufficient to meet regulatory minimums, they provide significant limitations to the number of inspections that may be performed, the ability to repeat the inspections and the ability to detect small geometric deviations.
+Although regulatory frameworks emphasise mechanical precision, compliance is still determined primarily through manual visual inspection and contact-based measurement. Roulette wheel operators assess the levelness, deformation and wear of their roulette wheels through subjective observation combined with mechanical gauges. Although these methods are sufficient to meet regulatory minimums, they provide significant limitations to the number of inspections that may be performed, the ability to repeat the inspections and the ability to detect small geometric deviations \cite{gadelmawla_measurement_2020}.
 
 \subsection{Limitations of Non-Automated Approaches}
 
